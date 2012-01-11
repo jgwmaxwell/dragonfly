@@ -82,16 +82,29 @@ module Dragonfly
         padding_right  = (opts[:padding_right]  || pr || 0)
         padding_bottom = (opts[:padding_bottom] || pb || 0)
         padding_left   = (opts[:padding_left]   || pl || 0)
+        max_width      = (opts[:max_width].to_f || nil)
+        max_height     = (opts[:max_height].to_f || nil)
 
         tempfile = convert(nil, args.join(' '), format)
 
-        if (padding_top || padding_right || padding_bottom || padding_left)
+        if (padding_top || padding_right || padding_bottom || padding_left || max_width || max_height )
           attrs  = identify(tempfile)
           text_width  = attrs[:width].to_i
           text_height = attrs[:height].to_i
-          puts text_width
-          width  = padding_left + text_width  + padding_right
-          height = padding_top  + text_height + padding_bottom
+
+          if max_width
+            width = max_width - text_width
+            padding)left = width / 2
+          else
+            width  = padding_left + text_width  + padding_right
+          end
+
+          if max_height
+            height = max_height - text_height
+            padding_top = height / 2
+          else
+            height = padding_top  + text_height + padding_bottom
+          end
 
           args = args.slice(0, args.length - 2)
           args.push("-size #{width}x#{height}")
