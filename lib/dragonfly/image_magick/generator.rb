@@ -107,7 +107,7 @@ module Dragonfly
           end
 
           args = args.slice(0, args.length - 2)
-          args.push("-size #{width}x#{height}")
+          args.push("-size #{max_width}x#{max_height}")
           args.push("xc:#{background}")
           args.push("-annotate 0x0+#{padding_left}+#{padding_top} #{escaped_string}")
           run convert_command,  "#{args.join(' ')} #{quote tempfile.path}"
