@@ -89,6 +89,7 @@ module Dragonfly
           attrs  = identify(tempfile)
           text_width  = attrs[:width].to_i
           text_height = attrs[:height].to_i
+          puts text_width
           width  = padding_left + text_width  + padding_right
           height = padding_top  + text_height + padding_bottom
 
