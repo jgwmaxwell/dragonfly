@@ -75,7 +75,7 @@ module Dragonfly
         args.push("-weight #{FONT_WEIGHTS[opts[:font_weight]]}") if opts[:font_weight]
         args.push("-background #{background}")
         args.push("label:#{escaped_string}")
-        args.push("-size #{opts[:width]}x#{opts[:height]}")
+
         # Padding
         pt, pr, pb, pl = parse_padding_string(opts[:padding]) if opts[:padding]
         padding_top    = (opts[:padding_top]    || pt || 0)
