@@ -97,6 +97,7 @@ module Dragonfly
           if max_width
             width = max_width - text_width
             padding_left = width / 2
+            puts padding_left
           else
             width  = padding_left + text_width  + padding_right
           end
