@@ -61,6 +61,7 @@ module Dragonfly
         background = opts[:background_color] || 'none'
         font_size = (opts[:font_size] || 12).to_i
         escaped_string = "\"#{string.gsub(/"/, '\"')}\""
+        escaped_label = "\"#{opts[:label].gsub(/"/, '\"')}\"" if opts[:label]
 
         # Settings
         args.push("-gravity NorthWest")
@@ -74,7 +75,8 @@ module Dragonfly
         args.push("-stretch #{FONT_STRETCHES[opts[:font_stretch]]}") if opts[:font_stretch]
         args.push("-weight #{FONT_WEIGHTS[opts[:font_weight]]}") if opts[:font_weight]
         args.push("-background #{background}")
-        args.push("label:#{escaped_string}")
+        args.push("label:#{escaped_string}") unless opts[:label]
+        args.push("label:#{escaped_label}") if opts[:label]
 
         # Padding
         pt, pr, pb, pl = parse_padding_string(opts[:padding]) if opts[:padding]
