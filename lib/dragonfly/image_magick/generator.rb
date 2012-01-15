@@ -39,11 +39,17 @@ module Dragonfly
       include Configurable
       include Utils
 
-      def plain(width, height, colour, opts={})
+      def plain(width, height, opts={})
         format = opts[:format] || 'png'
+        name = opts[:name] || 'plain'
+        
+        string = "-size #{width}x#{height} "
+        string << "xc:#{opts[:colour]}" if opts[:colour]
+        string << "tile:#{quote opts[:tile]}" if opts[:tile]
+        
         [
-          convert(nil, "-size #{width}x#{height} xc:#{colour}", format),
-          {:format => format.to_sym, :name => "plain.#{format}"}
+          convert(nil, string, format),
+          {:format => format.to_sym, :name => "#{name}.#{format}"}
         ]
       end
 
