@@ -68,7 +68,6 @@ module Dragonfly
         font_size = (opts[:font_size] || 12).to_i
         escaped_string = "\"#{string.gsub(/"/, '\"')}\""
         label = opts[:label] || "string"
-        pattern = opts[:pattern]
 
         # Settings
         args.push("-gravity NorthWest")
@@ -82,7 +81,6 @@ module Dragonfly
         args.push("-stretch #{FONT_STRETCHES[opts[:font_stretch]]}") if opts[:font_stretch]
         args.push("-weight #{FONT_WEIGHTS[opts[:font_weight]]}") if opts[:font_weight]
         args.push("-background #{background}")
-        args.push("-tile #{pattern}") if pattern
         args.push("label:#{escaped_string}")
 
         # Padding
@@ -118,6 +116,7 @@ module Dragonfly
           args = args.slice(0, args.length - 2)
           args.push("-size #{max_width}x#{max_height}")
           args.push("xc:#{background}")
+          args.push("-tile #{opts[:pattern]}") if opts[:pattern]
           args.push("-annotate 0x0+#{padding_left}+#{padding_top} #{escaped_string}")
           puts args
           run convert_command,  "#{args.join(' ')} #{quote tempfile.path}"
