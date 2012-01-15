@@ -67,10 +67,10 @@ module Dragonfly
         background = opts[:background_color] || 'none'
         font_size = (opts[:font_size] || 12).to_i
         escaped_string = "\"#{string.gsub(/"/, '\"')}\""
-        escaped_label = "\"#{opts[:label].gsub(/"/, '\"')}\"" if opts[:label]
+        label = opts[:label] || "string"
 
         # Settings
-        args.push("-gravity NorthWest")
+        args.push("-gravity center")
         args.push("-antialias")
         args.push("-pointsize #{font_size}")
         args.push("-font \"#{opts[:font]}\"") if opts[:font]
@@ -81,8 +81,7 @@ module Dragonfly
         args.push("-stretch #{FONT_STRETCHES[opts[:font_stretch]]}") if opts[:font_stretch]
         args.push("-weight #{FONT_WEIGHTS[opts[:font_weight]]}") if opts[:font_weight]
         args.push("-background #{background}")
-        args.push("label:#{escaped_string}") unless opts[:label]
-        args.push("label:#{escaped_label}") if opts[:label]
+        args.push("label:#{escaped_string}")
 
         # Padding
         pt, pr, pb, pl = parse_padding_string(opts[:padding]) if opts[:padding]
@@ -118,12 +117,13 @@ module Dragonfly
           args.push("-size #{max_width}x#{max_height}")
           args.push("xc:#{background}")
           args.push("-annotate 0x0+#{padding_left}+#{padding_top} #{escaped_string}")
+          puts args
           run convert_command,  "#{args.join(' ')} #{quote tempfile.path}"
         end
 
         [
           tempfile,
-          {:format => format, :name => "text.#{format}"}
+          {:format => format, :name => "#{label}.#{format}"}
         ]
       end
 
